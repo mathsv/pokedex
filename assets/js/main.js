@@ -3,57 +3,24 @@ const offset = 0
 const limit = 10
 const url = `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`
 
+function convertPokemonTypesToLi(pokemonTypes) {
+    return pokemonTypes.map((typeSlot) => `<li class="type">${typeSlot.type.name}</li>`)
+}
 
 function convertPokemonToHTML(pokemon) {
-    let pokemonNumber = pokemon.url.split('/')[6]
-    let pokemonTypes = {}
+    return `
+            <li class="pokemon">
+                <span class="number">#${pokemon.order}</span>
+                <span class="name">${String(pokemon.name).charAt(0).toUpperCase() + String(pokemon.name).slice(1)}</span>
 
-    /*
-    async function getPokemonTypes(pokemonNumber) {
-        try{
-            const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + pokemonNumber)
-            const responseBody = await response.json()
-            const types = responseBody.types.map((type) => type.type.name)
-            
-        }
-        catch(error) {
-            console.error(error)
-        }
-    }
-
-    pokemonTypes = getPokemonTypes(pokemonNumber)
-    */
-   
-    if (pokemonTypes.length === 1) {       
-        return `
-                <li class="pokemon">
-                    <span class="number">#${pokemonNumber}</span>
-                    <span class="name">${pokemon.name}</span>
-
-                    <div class="detail">
-                        <ol class="types">
-                            <li class="type">${pokemonTypes[0]}</li>
-                        </ol>
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonNumber}.svg" alt="${pokemon.name}">
-                    </div>
-                </li>
-                `
-    } else {
-        return `
-                <li class="pokemon">
-                    <span class="number">#${pokemonNumber}</span>
-                    <span class="name">${pokemon.name}</span>
-
-                    <div class="detail">
-                        <ol class="types">
-                            <li class="type">${pokemonTypes[0]}</li>
-                            <li class="type">${pokemonTypes[1]}</li>
-                        </ol>
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonNumber}.svg" alt="${pokemon.name}">
-                    </div>
-                </li>
-                `
-    }
+                <div class="detail">
+                    <ol class="types">
+                        ${convertPokemonTypesToLi(pokemon.types).join('')}
+                    </ol>
+                    <img src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
+                </div>
+            </li>
+            `
 }
 
 const pokemonList = document.getElementById('pokemon-list')
