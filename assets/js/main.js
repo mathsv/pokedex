@@ -56,10 +56,7 @@ function convertPokemonToHTML(pokemon) {
     }
 }
 
-pokeApi.getPokemons().then((pokemonList) => {
-    for (let i = 0; i < pokemonList.length; i++) {
-        const pokemon = pokemonList[i];
-        //console.log(convertPokemonToHTML(pokemon));
-        document.getElementById('pokemon-list').innerHTML += convertPokemonToHTML(pokemon);
-    }
+const pokemonList = document.getElementById('pokemon-list')
+pokeApi.getPokemons().then((pokemons = []) => {
+    pokemonList.innerHTML += pokemons.map(convertPokemonToHTML).join('')
 })
