@@ -14,7 +14,7 @@ function convertPokemonToHTML(pokemon) {
 
                 <div class="detail">
                     <ol class="types">
-                        ${pokemon.types.map((type) => `<li class="type">${type}</li>`).join('')}
+                        ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                     </ol>
                     <img src="${pokemon.photo}" alt="${pokemonName}">
                 </div>
