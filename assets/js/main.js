@@ -3,6 +3,8 @@ const loadMoreButton = document.getElementById('loadMoreButton')
 const limit = 5;
 let offset = 0;
 
+const maxRecords = 151; // Total of Pokemons of the first generation
+
 function loadPokemonItems(offset, limit) {
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
         pokemonList.innerHTML += pokemons.map((pokemon) => 
@@ -27,5 +29,15 @@ loadPokemonItems(offset, limit)
 
 loadMoreButton.addEventListener('click', () => {
     offset += limit
-    loadPokemonItems(offset, limit)
+    const qtRecordsNextPage = offset + limit
+
+    if (qtRecordsNextPage >= maxRecords) {
+        const newLimit = maxRecords - offset
+        loadPokemonItems(offset, newLimit)
+
+        loadMoreButton.parentElement.removeChild(loadMoreButton)
+        return
+    } else{
+        loadPokemonItems(offset, limit)
+    }
 })
